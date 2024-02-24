@@ -38,7 +38,7 @@ class HashTable:
                     return True
         return False
 
-# Тестуємо нашу хеш-таблицю та новий метод delete:
+# Тестуємо хеш-таблицю та новий метод delete:
 H = HashTable(5)
 H.insert("apple", 10)
 H.insert("orange", 20)

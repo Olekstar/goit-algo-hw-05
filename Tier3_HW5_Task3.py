@@ -4,7 +4,11 @@ from timeit import timeit
 # Функція для завантаження текстових файлів з Інтернету
 def download_file(url):
     response = requests.get(url)
-    return response.text
+    if response.status_code == 200:
+        return response.text
+    else:
+        print("Не вдалося завантажити файл. Статус код:", response.status_code)
+        return None
 
 # Функція для вимірювання часу виконання пошуку підрядка
 def measure_algorithm_time(algorithm, text, pattern):
@@ -79,7 +83,6 @@ def boyer_moore_search(text, pattern):
             return i
 
         i += shift_table.get(text[i + len(pattern) - 1], len(pattern))
-
     return -1
 
 # Функція для обчислення поліноміального хешу
@@ -112,18 +115,17 @@ def rabin_karp_search(main_string, substring):
             current_slice_hash = (current_slice_hash * base + ord(main_string[i + substring_length])) % modulus
             if current_slice_hash < 0:
                 current_slice_hash += modulus
-
     return -1
 
 # Завантаження текстових файлів з Інтернету
-url_article1 = "https://drive.google.com/file/d/18_R5vEQ3eDuy2VdV3K5Lu-R-B-adxXZh/view?usp=sharing"
-url_article2 = "https://drive.google.com/file/d/13hSt4JkJc11nckZZz2yoFHYL89a4XkMZ/view?usp=sharing"
+url_article1 = f"https://drive.google.com/uc?id=13hSt4JkJc11nckZZz2yoFHYL89a4XkMZ&export=download"
+url_article2 = f"https://drive.google.com/uc?id=18_R5vEQ3eDuy2VdV3K5Lu-R-B-adxXZh&export=download"
 
 article1_text = download_file(url_article1)
 article2_text = download_file(url_article2)
 
 # Патерни для пошуку
-real_pattern = "над іншими розглянутими структурами даних"
+real_pattern = "Література"
 fake_pattern = "неіснуючий текст"
 
 # Вимірюємо час виконання для реального підрядка в обох текстах
